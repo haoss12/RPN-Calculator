@@ -24,13 +24,31 @@ void push (stack_t *stack, int given_value)
     }
 }
 
-int pop(stack_t *stack)
+void duplicate (stack_t *stack)
+{
+    lelem_t *temp;
+    if (stack->head == NULL) /* there is no element on stack, so we cannot duplicate anything*/
+    {
+        fprintf(stderr, "Cannot duplicate, stack is empty!\n"); /* used temporary for debugging */
+    }
+    else
+    {
+        lelem_t *new = (lelem_t*) malloc(sizeof(lelem_t));  /*memory allocation for duplicated element on stack*/
+
+        new->value = temp->value;   /* top value is now duplicated in our stack*/
+        new->next = stack->head;    /* pointer for next element is now pointer for head */
+        stack->head = new;          /* head pointer is now the new pointer */
+    }
+    
+}
+
+int pop (stack_t *stack)
 {
     lelem_t *temp;
     int out;
     if (stack->head == NULL) /* there is no element on stack, so we cannot pop anything*/
     {
-        fprintf(stdout, "Stack is empty!\n"); /* used temporary for debugging */
+        fprintf(stderr, "Stack is empty!\n"); /* used temporary for debugging */
         return NULL; /* returning NULL to tell the diference between proper and not proper pop*/
     }
     else
@@ -43,7 +61,7 @@ int pop(stack_t *stack)
     }
 }
 
-int addition(stack_t *stack)
+int addition (stack_t *stack)
 {
     int a, b, result;    /* variables to store factors to add and the result*/
     a = pop(stack);      /* here we are popping value from top of stack */
@@ -53,7 +71,7 @@ int addition(stack_t *stack)
     return result;       /* return used for debugging */
 }
 
-int subtraction(stack_t *stack)
+int subtraction (stack_t *stack)
 {
     int a, b, result;    /* variables to store factors to subtract and the result*/
     a = pop(stack);      /* here we are popping value from top of stack */
@@ -63,7 +81,7 @@ int subtraction(stack_t *stack)
     return result;       /* return used for debugging */
 }
 
-int division(stack_t *stack)
+int division (stack_t *stack)
 {
     int a, b, result;    /* variables to store factors to divide and the result*/
     a = pop(stack);      /* here we are popping value from top of stack */
@@ -73,7 +91,7 @@ int division(stack_t *stack)
     return result;       /* return used for debugging */
 }
 
-int multiplication(stack_t *stack)
+int multiplication (stack_t *stack)
 {
     int a, b, result;    /* variables to store factors to multiplicate and the result*/
     a = pop(stack);      /* here we are popping value from top of stack */
@@ -83,7 +101,7 @@ int multiplication(stack_t *stack)
     return result;       /* return used for debugging */
 }
 
-int main()
+int main ()
 {
     int a, b, c, d, e, f;
     int pop_out = 0;
@@ -102,6 +120,7 @@ int main()
     push(stack, c);
     scanf("%d", &f);
     push(stack, f);
+    duplicate(stack);
     if ((pop_out = pop(stack))!=NULL)
         printf("%d\n", pop_out);
     temp = addition(stack);
@@ -110,5 +129,6 @@ int main()
     printf("%d\n", temp);
     temp = multiplication(stack);
     printf("%d\n", temp);
+    
     return 0;
 }
