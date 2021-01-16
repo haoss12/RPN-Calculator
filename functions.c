@@ -18,9 +18,9 @@ void push (stack_t *stack, int given_value)
     }
     else
     {
-        new->value = given_value;
-        new->next = stack->head;
-        stack->head = new;
+        new->value = given_value;   /* given value is now stored in our stack*/
+        new->next = stack->head;    /* pointer for next element is now pointer for head */
+        stack->head = new;          /* head pointer is now the new pointer */
     }
 }
 
@@ -28,17 +28,18 @@ int pop(stack_t *stack)
 {
     lelem_t *temp;
     int out;
-    if (stack->head == NULL)
+    if (stack->head == NULL) /* there is no element on stack, so we cannot pop anything*/
     {
         fprintf(stdout, "Stack is empty!\n"); /* used temporary for debugging */
-        return NULL;
+        return NULL; /* returning NULL to tell the diference between proper and not proper pop*/
     }
     else
     {
-        temp = stack->head;
-        out = temp->value;
-        stack->head = temp->next;
-        return out;
+        temp = stack->head; /* temporary pointer is now pointer for head*/
+        out = temp->value;  /* int out is now equal to temp value*/
+        stack->head = temp->next;   /* stack head is now next pointer, so we are losing stack top element */
+        free(temp);
+        return out; /* here we are returning popped value*/
     }
 }
 
@@ -84,7 +85,7 @@ int multiplication(stack_t *stack)
 
 int main()
 {
-    int a, b, c, d ,e;
+    int a, b, c, d, e, f;
     int pop_out = 0;
     int temp;
     stack_t *stack;
@@ -99,9 +100,15 @@ int main()
     push(stack, b);
     scanf("%d", &c);
     push(stack, c);
+    scanf("%d", &f);
+    push(stack, f);
+    if ((pop_out = pop(stack))!=NULL)
+        printf("%d\n", pop_out);
     temp = addition(stack);
     printf("%d\n", temp);
     temp = addition(stack);
+    printf("%d\n", temp);
+    temp = multiplication(stack);
     printf("%d\n", temp);
     return 0;
 }
