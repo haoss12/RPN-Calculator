@@ -61,6 +61,20 @@ int pop (stack_t *stack)
     }
 }
 
+int is_empty(stack_t *stack) /* this function was already implemented in pop function*/
+{
+    if (stack->head == NULL) /* there is no element on stack, so it is empty*/
+    {
+        fprintf(stderr, "Stack is empty!\n"); /* used temporary for debugging */
+        return 0; /* returning NULL to tell the diference between proper and not proper pop*/
+    }
+    else
+    {
+        return 1;
+    }
+    
+}
+
 int addition (stack_t *stack)
 {
     int a, b, result;    /* variables to store factors to add and the result*/
