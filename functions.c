@@ -42,37 +42,65 @@ void duplicate (stack_t *stack)
     
 }
 
-int pop (stack_t *stack)
-{
-    lelem_t *temp;
-    int out;
-    if (stack->head == NULL) /* there is no element on stack, so we cannot pop anything*/
-    {
-        fprintf(stderr, "Stack is empty!\n"); /* used temporary for debugging */
-        return NULL; /* returning NULL to tell the diference between proper and not proper pop*/
-    }
-    else
-    {
-        temp = stack->head; /* temporary pointer is now pointer for head*/
-        out = temp->value;  /* int out is now equal to temp value*/
-        stack->head = temp->next;   /* stack head is now next pointer, so we are losing stack top element */
-        free(temp);
-        return out; /* here we are returning popped value*/
-    }
-}
-
-int is_empty(stack_t *stack) /* this function was already implemented in pop function*/
+int is_empty(stack_t *stack) 
 {
     if (stack->head == NULL) /* there is no element on stack, so it is empty*/
     {
-        fprintf(stderr, "Stack is empty!\n"); /* used temporary for debugging */
-        return 0; /* returning NULL to tell the diference between proper and not proper pop*/
+        //fprintf(stderr, "Stack is empty!\n"); /* used temporary for debugging */
+        return 0;   /* returning 0 for no element on stack */
     }
     else
     {
-        return 1;
+        return 1;   /* returning 1 when there is any element on stack */
     }
-    
+}
+
+int pop (stack_t *stack)
+{
+    lelem_t *temp;
+    int out;                    /* temporary variable to */
+    if ((is_empty(stack)) == 1) /* checking if the stack is empty or not*/
+    {
+        temp = stack->head;     /* temporary pointer is now pointer for head*/
+        out = temp->value;      /* int out is now equal to temp value*/
+        stack->head = temp->next;   /* stack head is now next pointer, so we are losing stack top element */
+        free(temp);
+        return out;             /* here we are returning popped value*/
+    }
+    else                        /* there is no element on stack, so we cannot pop anything*/
+    {
+        fprintf(stderr, "Stack is empty!\n"); /* used temporary for debugging */
+        return NULL;            /* returning NULL to tell the diference between proper and not proper pop*/
+    }    
+}
+
+void clear (stack_t *stack)
+{
+    do
+    {
+        pop(stack); /* we are just popping out elements until stack is empty */
+    } while ((is_empty(stack)) == 1);
+}
+
+int stack_size (stack_t *stack) /* this fun*/
+{
+    int size;
+    do
+    {
+
+        size++;
+    } while ((is_empty(stack)) == 1);
+}
+
+void full_print(stack_t *stack)
+{
+    int *temp;
+    int i;
+    do
+    {
+        temp[] = (int *) malloc(sizeof(int));
+        temppop(stack);
+    } while ((is_empty(stack)) == 1);
 }
 
 int addition (stack_t *stack)
@@ -100,7 +128,7 @@ int division (stack_t *stack)
     int a, b, result;    /* variables to store factors to divide and the result*/
     a = pop(stack);      /* here we are popping value from top of stack */
     b = pop(stack);
-    result = a / b;
+    result = b / a;
     push(stack, result); /* and here we are pushing our result on top of stack*/
     return result;       /* return used for debugging */
 }
@@ -134,6 +162,8 @@ int main ()
     push(stack, c);
     scanf("%d", &f);
     push(stack, f);
+    clear(stack);
+    /*
     duplicate(stack);
     if ((pop_out = pop(stack))!=NULL)
         printf("%d\n", pop_out);
@@ -141,6 +171,7 @@ int main ()
     printf("%d\n", temp);
     temp = addition(stack);
     printf("%d\n", temp);
+    */
     temp = multiplication(stack);
     printf("%d\n", temp);
     
