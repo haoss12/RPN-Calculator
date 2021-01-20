@@ -9,7 +9,6 @@
 void push (stack_t *stack, int given_value) 
 {
     lelem_t *new = (lelem_t*) malloc(sizeof(lelem_t));  /*memory allocation for new element on stack*/
-    
     if (stack->head == NULL)    /* if head==NULL then this is first element on stack */
     {
         new->value = given_value;   /* given value is now stored in our stack*/
@@ -58,7 +57,7 @@ int is_empty(stack_t *stack)
 int pop (stack_t *stack)
 {
     lelem_t *temp;
-    int out;                    /* temporary variable to */
+    int out;                    /* temporary variable to store popped number */
     if ((is_empty(stack)) == 1) /* checking if the stack is empty or not*/
     {
         temp = stack->head;     /* temporary pointer is now pointer for head*/
@@ -82,98 +81,65 @@ void clear (stack_t *stack)
     } while ((is_empty(stack)) == 1);
 }
 
-int stack_size (stack_t *stack) /* this fun*/
+int stack_size (stack_t *stack) /* this function count number of elements on stack */
 {
-    int size;
-    do
+    int size = 0;   /* variable to store size of stack */
+    lelem_t *temp;  /* here we are initializing our stack */
+    while (temp != NULL)
     {
-
-        size++;
-    } while ((is_empty(stack)) == 1);
-}
-
-void full_print(stack_t *stack)
-{
-    int *temp;
-    int i;
-    do
-    {
-        temp[] = (int *) malloc(sizeof(int));
-        temppop(stack);
-    } while ((is_empty(stack)) == 1);
-}
-
-int addition (stack_t *stack)
-{
-    int a, b, result;    /* variables to store factors to add and the result*/
-    a = pop(stack);      /* here we are popping value from top of stack */
-    b = pop(stack);
-    result = a + b;
-    push(stack, result); /* and here we are pushing our result on top of stack*/
-    return result;       /* return used for debugging */
-}
-
-int subtraction (stack_t *stack)
-{
-    int a, b, result;    /* variables to store factors to subtract and the result*/
-    a = pop(stack);      /* here we are popping value from top of stack */
-    b = pop(stack);
-    result = a - b;
-    push(stack, result); /* and here we are pushing our result on top of stack*/
-    return result;       /* return used for debugging */
-}
-
-int division (stack_t *stack)
-{
-    int a, b, result;    /* variables to store factors to divide and the result*/
-    a = pop(stack);      /* here we are popping value from top of stack */
-    b = pop(stack);
-    result = b / a;
-    push(stack, result); /* and here we are pushing our result on top of stack*/
-    return result;       /* return used for debugging */
-}
-
-int multiplication (stack_t *stack)
-{
-    int a, b, result;    /* variables to store factors to multiplicate and the result*/
-    a = pop(stack);      /* here we are popping value from top of stack */
-    b = pop(stack);
-    result = a * b;
-    push(stack, result); /* and here we are pushing our result on top of stack*/
-    return result;       /* return used for debugging */
-}
-
-int main ()
-{
-    int a, b, c, d, e, f;
-    int pop_out = 0;
-    int temp;
-    stack_t *stack;
-    stack->head = NULL;
-    if ((pop_out = pop(stack))!=NULL)
-        printf("%d\n", pop_out);
-    scanf("%d %d %d", &a, &d, &e);
-    push(stack, a);
-    push(stack, d);
-    push(stack, e);
-    scanf("%d", &b);
-    push(stack, b);
-    scanf("%d", &c);
-    push(stack, c);
-    scanf("%d", &f);
-    push(stack, f);
-    clear(stack);
-    /*
-    duplicate(stack);
-    if ((pop_out = pop(stack))!=NULL)
-        printf("%d\n", pop_out);
-    temp = addition(stack);
-    printf("%d\n", temp);
-    temp = addition(stack);
-    printf("%d\n", temp);
-    */
-    temp = multiplication(stack);
-    printf("%d\n", temp);
+        temp = temp->next;  /* in this loop we are just going to end of stack */
+        size++;             /* and we increase 'size' variable */
+    }
+    temp = stack->head;     /* temp is back as our stack head */
     
-    return 0;
+    return size;            /* return size of stack */
+}
+
+void print(stack_t *stack)
+{
+    int pop_out;
+    if ((is_empty(stack)) == 1)
+    {
+        pop_out = pop(stack);       /* here we are popping value from top of stack */
+        printf("%d\n", pop_out);    /* we are printing it */
+        push(stack, pop_out);       /* and we are pushing it back */
+    }
+    else                        /* there is no element on stack, so we cannot print anything*/
+    {
+        fprintf(stderr, "Stack is empty!\n"); 
+    }
+}
+
+void full_print(stack_t *stack, int size) /* size is variable for stack size*/
+{;
+    int i;
+    int *tab;
+    tab = malloc(size * sizeof(int));   /*allocation space for temporary table */
+    for(i=0; i<size; i++)
+    { 
+        tab[i]=pop(stack);          /* popping value into temp table*/           
+        printf("%d\n", tab[i]);     /* printing this value */
+        
+    }
+    i=i-1;                          /* decreasing 'i' because of indexing from 0 */
+    for(i=i; i>=0; i--){                    
+        push(stack, tab[i]);        /* pushing values back */
+    }
+    free(tab);
+}
+
+void reverse (stack_t *stack, int size) /* size is variable for stack size*/
+{
+    int a, b; 
+    if (size >= 2)
+    {
+        a = pop(stack);
+        b = pop(stack);
+        push(stack, a);
+        push(stack, b);
+    }
+    else
+    {
+        fprintf(stderr, "Too few elements on stack!");
+    }
 }
